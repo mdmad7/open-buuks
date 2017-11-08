@@ -2,12 +2,11 @@ import express from 'express';
 import path from 'path';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import expressValidator from 'express-validator';
 
 import index from './routes/index';
-import users from './routes/users';
+import user from './routes/user';
 import catalog from './routes/catalog';
 
 const server = express();
@@ -28,10 +27,9 @@ server.use(logger('dev'));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(expressValidator());
-server.use(cookieParser());
 
 server.use('/', index);
-server.use('/users', users);
+server.use('/user', user);
 server.use('/catalog', catalog);
 
 // catch 404 and forward to error handler

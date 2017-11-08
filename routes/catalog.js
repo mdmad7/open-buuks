@@ -2,10 +2,10 @@ import { Router } from 'express';
 const router = new Router();
 
 // Require controller modules
-import * as book_controller from '../controllers/bookController';
-import * as author_controller from '../controllers/authorController';
-import * as genre_controller from '../controllers/genreController';
-import * as book_instance_controller from '../controllers/bookinstanceController';
+import * as book_controller from '../controllers/book';
+import * as author_controller from '../controllers/author';
+import * as genre_controller from '../controllers/genre';
+import * as book_instance_controller from '../controllers/bookinstance';
 
 /// BOOK ROUTES ///
 
