@@ -120,11 +120,11 @@ export const book_delete_post = (req, res) => {
   async.parallel(
     {
       book: callback => {
-        Book.findById(req.body.bookid).exec(callback);
+        Book.findById(req.params.id).exec(callback);
       },
       book_instance: callback => {
         BookInstance.find(
-          { book_instance: req.body.bookid },
+          { book_instance: req.params.id },
           'title summary',
         ).exec(callback);
       },
@@ -140,7 +140,7 @@ export const book_delete_post = (req, res) => {
         return;
       } else {
         //Author has no books. Delete object and redirect to the list of authors.
-        Book.findByIdAndRemove(req.body.bookid, (err, book) => {
+        Book.findByIdAndRemove(req.params.id, (err, book) => {
           if (err) {
             return next(err);
           }

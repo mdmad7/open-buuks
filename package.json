@@ -5,8 +5,10 @@
   "main": "server.js",
   "author": "Davis Junior",
   "scripts": {
+    "popDB": "node populatedb mongodb://localhost/schoollibrary",
+    "start": "concurrently \"npm run dev\" \"npm run client\"",
     "dev": "nodemon --exec babel-node server.js",
-    "popDB": "node populatedb mongodb://localhost/schoollibrary"
+    "client": "cd client && npm start"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -26,7 +28,8 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-stage-3": "^6.24.1"
+    "babel-preset-stage-3": "^6.24.1",
+    "concurrently": "^3.5.0"
   },
   "license": "MIT"
 }

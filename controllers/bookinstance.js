@@ -78,19 +78,16 @@ export const bookinstance_create_post = (req, res) => {
 
 // Handle BookInstance delete on POST
 export const bookinstance_delete_post = (req, res) => {
-  req.checkBody('bookinstanceid', 'Book Instance id must exist').notEmpty();
+  // req.checkBody('bookinstanceid', 'Book Instance id must exist').notEmpty();
 
   //Delete object and redirect to the list of bookinstances.
-  BookInstance.findByIdAndRemove(
-    req.body.bookinstanceid,
-    (err, bookinstance) => {
-      if (err) {
-        return next(err);
-      }
-      //Success - got to author list
-      res.json(bookinstance);
-    },
-  );
+  BookInstance.findByIdAndRemove(req.params.id, (err, bookinstance) => {
+    if (err) {
+      return next(err);
+    }
+    //Success - got to author list
+    res.json(bookinstance);
+  });
 };
 
 // Handle bookinstance update on POST

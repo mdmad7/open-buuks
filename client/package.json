@@ -1,0 +1,35 @@
+{
+  "name": "openbuuks",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:3001/",
+  "dependencies": {
+    "axios": "^0.17.0",
+    "moment": "^2.19.1",
+    "react": "^16.0.0",
+    "react-bootstrap-typeahead": "^2.0.0-rc.4",
+    "react-dom": "^16.0.0",
+    "react-redux": "^5.0.6",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.17",
+    "react-typeahead": "^2.0.0-alpha.6",
+    "react-typeahead-component": "^0.9.0",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-promise-middleware": "^4.4.2",
+    "redux-thunk": "^2.2.0"
+  },
+  "scripts": {
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "start-js": "react-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "node-sass-chokidar": "^0.0.3",
+    "npm-run-all": "^4.1.2"
+  }
+}

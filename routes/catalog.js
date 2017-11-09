@@ -1,6 +1,11 @@
 import { Router } from 'express';
 const router = new Router();
 
+import passport from 'passport';
+import passportConfig from '../passport';
+
+const passportLocalAuth = passport.authenticate('jwt', { session: false });
+
 // Require controller modules
 import * as book_controller from '../controllers/book';
 import * as author_controller from '../controllers/author';
@@ -8,9 +13,6 @@ import * as genre_controller from '../controllers/genre';
 import * as book_instance_controller from '../controllers/bookinstance';
 
 /// BOOK ROUTES ///
-
-/* GET catalog home page. */
-
 /* POST request for creating Book. */
 router.post('/book/create', book_controller.book_create_post);
 
@@ -24,10 +26,9 @@ router.post('/book/:id/update', book_controller.book_update_post);
 router.get('/book/:id', book_controller.book_detail);
 
 /* GET request for list of all Book items. */
-router.get('/books', book_controller.book_list);
+router.get('/books', passportLocalAuth, book_controller.book_list);
 
 /// AUTHOR ROUTES ///
-
 /* POST request for creating Author. */
 router.post('/author/create', author_controller.author_create_post);
 
@@ -41,10 +42,9 @@ router.post('/author/:id/update', author_controller.author_update_post);
 router.get('/author/:id', author_controller.author_detail);
 
 /* GET request for list of all Authors. */
-router.get('/authors', author_controller.author_list);
+router.get('/authors', passportLocalAuth, author_controller.author_list);
 
 /// GENRE ROUTES ///
-
 /* POST request for creating Genre. */
 router.post('/genre/create', genre_controller.genre_create_post);
 
@@ -61,7 +61,6 @@ router.get('/genre/:id', genre_controller.genre_detail);
 router.get('/genres', genre_controller.genre_list);
 
 /// BOOKINSTANCE ROUTES ///
-
 /* POST request for creating BookInstance. */
 router.post(
   '/bookinstance/create',

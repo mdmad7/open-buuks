@@ -87,10 +87,10 @@ export const genre_delete_post = (req, res) => {
   async.parallel(
     {
       genre: callback => {
-        Genre.findById(req.body.genreid).exec(callback);
+        Genre.findById(req.params.id).exec(callback);
       },
       genres_books: callback => {
-        Book.find({ genre: req.body.genreid }, 'genre id').exec(callback);
+        Book.find({ genre: req.params.id }, 'genre id').exec(callback);
       },
     },
     (err, results) => {
@@ -104,7 +104,7 @@ export const genre_delete_post = (req, res) => {
         return;
       } else {
         //Author has no books. Delete object and redirect to the list of authors.
-        Genre.findByIdAndRemove(req.body.genreid, (err, genre) => {
+        Genre.findByIdAndRemove(req.params.id, (err, genre) => {
           if (err) {
             return next(err);
           }

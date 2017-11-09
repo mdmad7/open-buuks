@@ -16,7 +16,7 @@ passport.use(
         const user = await User.findById(payload.sub);
 
         if (!user) {
-          return done(null, false);
+          return done(null, false, { message: 'Incorrect Email' });
         }
 
         done(null, user);
@@ -40,7 +40,7 @@ passport.use(
 
         // if not handle it
         if (!user) {
-          return done(null, false);
+          return done(null, false, { message: 'Incorrect Email' });
         }
 
         // check if passowrd is correct
@@ -48,7 +48,7 @@ passport.use(
 
         // if not handle
         if (!isMatch) {
-          return done(null, false);
+          return done(null, false, { message: 'Incorrect Password' });
         }
 
         done(null, user);

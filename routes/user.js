@@ -1,5 +1,6 @@
 import expressPromiseRouter from 'express-promise-router';
 const router = expressPromiseRouter();
+
 import passport from 'passport';
 import passportConfig from '../passport';
 

@@ -81,17 +81,15 @@ export const author_create_post = (req, res, next) => {
 
 // Handle Author delete on POST
 export const author_delete_post = (req, res, next) => {
-  req.checkBody('authorid', 'Author id must exist').notEmpty();
+  // req.checkBody('authorid', 'Author id must exist').notEmpty();
 
   async.parallel(
     {
       author: callback => {
-        Author.findById(req.body.authorid).exec(callback);
+        Author.findById(req.params.id).exec(callback);
       },
       authors_books: callback => {
-        Book.find({ author: req.body.authorid }, 'title summary').exec(
-          callback,
-        );
+        Book.find({ author: req.params.id }, 'title summary').exec(callback);
       },
     },
     (err, results) => {
@@ -105,7 +103,7 @@ export const author_delete_post = (req, res, next) => {
         return;
       } else {
         //Author has no books. Delete object and redirect to the list of authors.
-        Author.findByIdAndRemove(req.body.authorid, (err, author) => {
+        Author.findByIdAndRemove(req.params.id, (err, author) => {
           if (err) {
             res.send('an error occurred tryin to delete a author');
           }
