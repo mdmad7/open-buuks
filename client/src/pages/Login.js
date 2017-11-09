@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
+import LoginForm from '../components/login-form';
 
 class Login extends Component {
   render() {
     return (
       <div className="login_page">
-        <h1>Login</h1>
-        <form>
-          <input type="text" placeholder="enter email" />
-          <input type="password" placeholder="enter password" />
-        </form>
+        <LoginForm />
       </div>
     );
   }

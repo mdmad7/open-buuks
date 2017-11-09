@@ -1,14 +1,20 @@
-input {
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid #ffffff;
-  color: #ffffff;
-  font-size: 2rem;
-  height: 50px;
-  outline: none;
-  width: 100%;
-}
-
 .typeahead {
   min-width: 700px;
+
+  .typeahead-selector {
+    list-style: none;
+    padding: 0;
+  }
+
+  input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #1b1b1b;
+    color: #1b1b1b;
+    font-family: Raleway, sans-serif;
+    font-size: 2rem;
+    height: 50px;
+    outline: none;
+    width: 100%;
+  }
 }

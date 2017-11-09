@@ -1,2 +1,14 @@
-@import './layouts/_homepage';
+// Variables
+@import './partials/_variables';
+
+// Component styles
 @import './components/_searchbar';
+@import './components/_loginform';
+
+// Page styles
+@import './layouts/_homepage';
+@import './layouts/_loginpage';
+
+body {
+  font-family: Raleway, sans-serif;
+}
