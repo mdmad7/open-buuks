@@ -5,7 +5,7 @@ class Login extends Component {
   render() {
     return (
       <div className="login_page">
-        <LoginForm />
+        <LoginForm history={this.props.history} />
       </div>
     );
   }
