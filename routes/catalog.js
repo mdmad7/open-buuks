@@ -2,9 +2,8 @@ import { Router } from 'express';
 const router = new Router();
 
 import passport from 'passport';
-import passportConfig from '../passport';
 
-const passportLocalAuth = passport.authenticate('jwt', { session: false });
+const passportJWTAuth = passport.authenticate('jwt', { session: false });
 
 // Require controller modules
 import * as book_controller from '../controllers/book';
@@ -26,7 +25,7 @@ router.post('/book/:id/update', book_controller.book_update_post);
 router.get('/book/:id', book_controller.book_detail);
 
 /* GET request for list of all Book items. */
-router.get('/books', passportLocalAuth, book_controller.book_list);
+router.get('/books', passportJWTAuth, book_controller.book_list);
 
 /// AUTHOR ROUTES ///
 /* POST request for creating Author. */
@@ -42,7 +41,7 @@ router.post('/author/:id/update', author_controller.author_update_post);
 router.get('/author/:id', author_controller.author_detail);
 
 /* GET request for list of all Authors. */
-router.get('/authors', passportLocalAuth, author_controller.author_list);
+router.get('/authors', passportJWTAuth, author_controller.author_list);
 
 /// GENRE ROUTES ///
 /* POST request for creating Genre. */

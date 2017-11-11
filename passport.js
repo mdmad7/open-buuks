@@ -19,9 +19,9 @@ passport.use(
           return done(null, false, { message: 'Incorrect Email' });
         }
 
-        done(null, user);
+        return done(null, user);
       } catch (error) {
-        done(error, false);
+        return done(error, false);
       }
     },
   ),
@@ -40,7 +40,7 @@ passport.use(
 
         // if not handle it
         if (!user) {
-          return done(null, false, { message: 'Incorrect Email' });
+          return done(null, false);
         }
 
         // check if passowrd is correct
@@ -48,12 +48,12 @@ passport.use(
 
         // if not handle
         if (!isMatch) {
-          return done(null, false, { message: 'Incorrect Password' });
+          return done(null, false);
         }
 
-        done(null, user);
+        return done(null, user);
       } catch (error) {
-        done(error, false);
+        return done(error, false);
       }
     },
   ),

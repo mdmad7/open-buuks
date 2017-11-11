@@ -4,12 +4,15 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import expressValidator from 'express-validator';
+import passport from 'passport';
+import passportConfig from './passport';
 
 import index from './routes/index';
 import user from './routes/user';
 import catalog from './routes/catalog';
 
 const server = express();
+server.use(passport.initialize());
 
 //Set up mongoose connection
 mongoose.Promise = global.Promise;
