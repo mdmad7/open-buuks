@@ -14,6 +14,12 @@ import user_controller from '../controllers/user';
 router.post(
   '/signup',
   [
+    check('firstName')
+      .trim()
+      .exists(),
+    check('lastName')
+      .trim()
+      .exists(),
     check('email')
       .isEmail()
       .withMessage('Invalid Email format')
@@ -36,5 +42,11 @@ router.post(
 
 /* Login User */
 router.post('/login', user_controller.logIn);
+
+router.get(
+  '/profile',
+  passport.authenticate('jwt', { session: false }),
+  user_controller.profile,
+);
 
 export default router;

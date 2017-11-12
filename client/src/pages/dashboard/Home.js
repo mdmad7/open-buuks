@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import authService from '../components/authService';
-import withAuth from '../components/withAuthHOC';
+import authService from '../../components/authService';
+import withAuth from '../../components/withAuthHOC';
 const Auth = new authService();
 
-class Dashboard extends Component {
+class Homepage extends Component {
   handleLogout() {
     Auth.logout();
     this.props.history.replace('/admin');
@@ -13,7 +13,7 @@ class Dashboard extends Component {
     return (
       <div>
         {console.log(this.props)}
-        <h2>Welcome to Dashboard</h2>
+        <h2>Welcome to Homepage</h2>
         <h2>Welcome {this.props.user.firstName}</h2>
         <p className="App-intro">
           <button
@@ -29,4 +29,4 @@ class Dashboard extends Component {
   }
 }
 
-export default withAuth(Dashboard);
+export default withAuth(Homepage);

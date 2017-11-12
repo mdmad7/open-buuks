@@ -5,6 +5,10 @@ import authService from './authService';
 class LoginForm extends Component {
   constructor() {
     super();
+
+    this.state = {
+      error: null,
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.Auth = new authService();
@@ -22,10 +26,14 @@ class LoginForm extends Component {
     this.Auth
       .login(this.state.email, this.state.password)
       .then(res => {
-        this.props.history.replace('/dashboard');
+        res.data.error
+          ? this.setState({
+              error: res.data.error,
+            })
+          : this.props.history.replace('/dashboard');
       })
       .catch(err => {
-        alert(err);
+        console.log(err);
       });
   }
 
@@ -43,7 +51,7 @@ class LoginForm extends Component {
           <div className="logo_div text-center">
             <img src={logo} width="150" alt="logo" />
           </div>
-          <form onSubmit={this.handleFormSubmit}>
+          <form>
             <div className="form-group">
               <label htmlFor="emailInput">Email address</label>
               <input
@@ -66,8 +74,11 @@ class LoginForm extends Component {
                 placeholder="Password"
                 onChange={this.handleChange}
               />
+              {this.state.error ? (
+                <span className="p-3 mb-2 text-danger">{this.state.error}</span>
+              ) : null}
             </div>
-            <button type="submit" className="">
+            <button type="submit" className="" onClick={this.handleFormSubmit}>
               Log in
             </button>
           </form>

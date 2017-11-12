@@ -13,7 +13,7 @@ passport.use(
     },
     async (payload, done) => {
       try {
-        const user = await User.findById(payload.sub);
+        const user = await User.findById(payload.sub, { password: 0 });
 
         if (!user) {
           return done(null, false, { message: 'Incorrect Email' });

@@ -8,13 +8,15 @@ import { validationResult } from 'express-validator/check';
 const signToken = user => {
   return JWT.sign(
     {
-      iss: 'open-buuks',
-      sub: user.id,
-      iat: new Date().getTime(),
-      // exp: new Date().setDate(new Date().getDate() + 1), // current time + 1 day ahead
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
     },
     config.JWT_SECRET,
-    { expiresIn: '1hr' },
+    {
+      expiresIn: '1hr',
+    },
   );
 };
 
@@ -25,7 +27,7 @@ export default {
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.mapped() });
     }
-    const { email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
     // check if user already exists
     const foundUser = await User.findOne({ email });
 
@@ -35,6 +37,8 @@ export default {
 
     // create user
     const newUser = new User({
+      firstName,
+      lastName,
       email,
       password,
     });
@@ -45,18 +49,23 @@ export default {
   },
 
   logIn: async (req, res, next) => {
+    // passport.authenticate is placed here to enable
+    // custom msg object
     passport.authenticate('local', (err, user, info) => {
       if (err) {
         return next(err);
       }
       if (!user) {
-        return res.json({ message: 'Invalid Email Address or Password' });
+        return res.json({ error: 'Invalid Email Address or Password' });
       }
-      // res.json(user);
 
       const token = signToken(user);
       res.status(200).json({ token });
-      // console.log('signed in');
     })(req, res, next);
+  },
+
+  profile: async (req, res, next) => {
+    console.log(req.user);
+    res.json(req.user);
   },
 };
