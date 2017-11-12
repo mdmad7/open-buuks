@@ -1,5 +1,5 @@
 import React from 'react';
-import withAuth from '../../components/withAuthHOC';
+// import withAuth from '../../components/withAuthHOC';
 
 const AuthorPage = () => {
   return (
@@ -9,4 +9,4 @@ const AuthorPage = () => {
   );
 };
 
-export default withAuth(AuthorPage);
+export default AuthorPage;

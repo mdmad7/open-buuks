@@ -1,5 +1,5 @@
 import React from 'react';
-import withAuth from '../../components/withAuthHOC';
+// import withAuth from '../../components/withAuthHOC';
 
 const BookInstancePage = () => {
   return (
@@ -9,4 +9,4 @@ const BookInstancePage = () => {
   );
 };
 
-export default withAuth(BookInstancePage);
+export default BookInstancePage;

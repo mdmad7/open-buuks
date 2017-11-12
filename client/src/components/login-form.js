@@ -7,15 +7,15 @@ import {
   Grid,
   Header,
   Image,
-  Message,
   Segment,
+  Message,
 } from 'semantic-ui-react';
 class LoginForm extends Component {
   constructor() {
     super();
 
     this.state = {
-      error: null,
+      error: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -53,44 +53,47 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <div className="login_form">
-        <div className="form_bg_img" />
-        <div className="login_div">
-          <div className="logo_div text-center">
-            <img src={logo} width="150" alt="logo" />
-          </div>
-          <form>
-            <div className="form-group">
-              <label htmlFor="emailInput">Email address</label>
-              <input
-                type="email"
-                className="form-control"
-                id="emailInput"
-                name="email"
-                aria-describedby="emailHelp"
-                placeholder="Enter email"
-                onChange={this.handleChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="passwordInput">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                name="password"
-                id="passwordInput"
-                placeholder="Password"
-                onChange={this.handleChange}
-              />
-              {this.state.error ? (
-                <span className="p-3 mb-2 text-danger">{this.state.error}</span>
-              ) : null}
-            </div>
-            <button type="submit" className="" onClick={this.handleFormSubmit}>
-              Log in
-            </button>
-          </form>
-        </div>
+      <div className="login-form">
+        <Grid
+          textAlign="center"
+          style={{ height: '100%' }}
+          verticalAlign="middle"
+        >
+          <Grid.Column style={{ maxWidth: 550, minWidth: 320 }}>
+            <Header as="h2" color="teal" textAlign="center">
+              <Image src={logo} />
+            </Header>
+            <Form size="large" onSubmit={this.handleFormSubmit} error>
+              <Segment raised>
+                <Form.Input
+                  fluid
+                  icon="user"
+                  name="email"
+                  iconPosition="left"
+                  placeholder="E-mail address"
+                  onChange={this.handleChange}
+                  type="email"
+                />
+                <Form.Input
+                  fluid
+                  icon="lock"
+                  name="password"
+                  iconPosition="left"
+                  placeholder="Password"
+                  type="password"
+                  onChange={this.handleChange}
+                />
+                {this.state.error ? (
+                  <Message error content={this.state.error} />
+                ) : null}
+
+                <Button color="teal" fluid size="large">
+                  Login
+                </Button>
+              </Segment>
+            </Form>
+          </Grid.Column>
+        </Grid>
       </div>
     );
   }
