@@ -3,11 +3,16 @@
 
 // Component styles
 @import './components/_searchbar';
+@import './components/_dash_side_nav.scss';
 
 // Page styles
 @import './layouts/_homepage';
 @import './layouts/_loginpage';
 
-body {
-  // font-family: Raleway, sans-serif;
+* {
+  font-family: Raleway, sans-serif !important;
+}
+
+.pusher {
+  background: #eaeef1 !important;
 }

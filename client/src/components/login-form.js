@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
 import logo from '../images/logo.svg';
 import authService from './authService';
-import {
-  Button,
-  Form,
-  Grid,
-  Header,
-  Image,
-  Segment,
-  Message,
-} from 'semantic-ui-react';
+import { Button, Form, Grid, Image, Segment, Message } from 'semantic-ui-react';
 class LoginForm extends Component {
   constructor() {
     super();
@@ -60,11 +52,11 @@ class LoginForm extends Component {
           verticalAlign="middle"
         >
           <Grid.Column style={{ maxWidth: 550, minWidth: 320 }}>
-            <Header as="h2" color="teal" textAlign="center">
-              <Image src={logo} />
-            </Header>
             <Form size="large" onSubmit={this.handleFormSubmit} error>
-              <Segment raised>
+              <Segment>
+                <div className="logo_container">
+                  <Image src={logo} className="login_logo" />
+                </div>
                 <Form.Input
                   fluid
                   icon="user"
@@ -87,7 +79,7 @@ class LoginForm extends Component {
                   <Message error content={this.state.error} />
                 ) : null}
 
-                <Button color="teal" fluid size="large">
+                <Button fluid size="medium" className="login_button">
                   Login
                 </Button>
               </Segment>

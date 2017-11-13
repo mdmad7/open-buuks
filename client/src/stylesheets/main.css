@@ -14,6 +14,13 @@
     outline: none;
     width: 100%; }
 
+.dash_side_nav {
+  background: #2a58ad !important; }
+  .dash_side_nav .item a {
+    display: inline-block;
+    height: 100%;
+    width: 100%; }
+
 .home_page {
   align-items: center;
   display: flex;
@@ -23,8 +30,39 @@
 
 .login_page {
   align-items: center;
-  background: #f7f7f7;
+  background-image: linear-gradient(-46deg, rgba(44, 50, 101, 0.8) 0%, rgba(191, 84, 93, 0.8) 100%);
   display: flex;
   min-height: 100vh;
   justify-content: center;
   width: 100vw; }
+  .login_page .segment {
+    background-image: linear-gradient(-46deg, #2c3265 0%, #bf545d 100%);
+    border: none; }
+    .login_page .segment .logo_container {
+      display: flex;
+      align-content: center;
+      justify-content: center;
+      margin: 3.5rem 0; }
+    .login_page .segment .login_logo {
+      margin: 0;
+      width: 150px !important; }
+  .login_page .login_button {
+    border-radius: 100px !important;
+    background: #ffffff;
+    color: #bf545d;
+    transition: 0.3s ease-in;
+    margin: 3rem 0 1rem; }
+    .login_page .login_button:hover {
+      background: #bf545d;
+      color: #ffffff; }
+  .login_page input {
+    background: transparent !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important; }
+
+* {
+  font-family: Raleway, sans-serif !important; }
+
+.pusher {
+  background: #eaeef1 !important; }

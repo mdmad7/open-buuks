@@ -11,6 +11,8 @@ import * as author_controller from '../controllers/author';
 import * as genre_controller from '../controllers/genre';
 import * as book_instance_controller from '../controllers/bookinstance';
 
+router.get('/statscount', book_controller.stats);
+
 /// BOOK ROUTES ///
 /* POST request for creating Book. */
 router.post('/book/create', book_controller.book_create_post);

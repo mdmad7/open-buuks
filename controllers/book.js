@@ -5,6 +5,37 @@ import BookInstance from '../models/bookinstance';
 
 import async from 'async';
 
+export const stats = (req, res) => {
+  async.parallel(
+    {
+      book_count: callback => {
+        Book.count(callback);
+      },
+      book_instance_count: callback => {
+        BookInstance.count(callback);
+      },
+      book_instance_available_count: callback => {
+        BookInstance.count({ status: 'Available' }, callback);
+      },
+      book_instance_loaned_count: callback => {
+        BookInstance.count({ status: 'Loaned' }, callback);
+      },
+      book_instance_maintenance_count: callback => {
+        BookInstance.count({ status: 'Maintenance' }, callback);
+      },
+      author_count: callback => {
+        Author.count(callback);
+      },
+      genre_count: callback => {
+        Genre.count(callback);
+      },
+    },
+    (err, results) => {
+      res.json(results);
+    },
+  );
+};
+
 // Display list of all books
 export const book_list = (req, res) => {
   Book.find({}, 'title author')
