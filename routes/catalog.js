@@ -48,19 +48,23 @@ router.get('/authors', passportJWTAuth, author_controller.author_list);
 
 /// GENRE ROUTES ///
 /* POST request for creating Genre. */
-router.post('/genre/create', genre_controller.genre_create_post);
+router.post('/genre', passportJWTAuth, genre_controller.genre_create_post);
 
 // POST request to delete Genre
-router.post('/genre/:id/delete', genre_controller.genre_delete_post);
+router.delete(
+  '/genre/:id',
+  passportJWTAuth,
+  genre_controller.genre_delete_post,
+);
 
 // POST request to update Genre
-router.post('/genre/:id/update', genre_controller.genre_update_post);
+router.put('/genre/:id', passportJWTAuth, genre_controller.genre_update_post);
 
 /* GET request for one Genre. */
-router.get('/genre/:id', genre_controller.genre_detail);
+router.get('/genre/:id', passportJWTAuth, genre_controller.genre_detail);
 
 /* GET request for list of all Genre. */
-router.get('/genres', genre_controller.genre_list);
+router.get('/genres', passportJWTAuth, genre_controller.genre_list);
 
 /// BOOKINSTANCE ROUTES ///
 /* POST request for creating BookInstance. */

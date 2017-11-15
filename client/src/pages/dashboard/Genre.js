@@ -1,5 +1,6 @@
 import React from 'react';
-import { Form, Grid, Modal, Header, Button } from 'semantic-ui-react';
+import { Grid, Modal, Header, Button } from 'semantic-ui-react';
+import GenreForm from '../../components/dashboard/genre-form';
 
 const GenrePage = () => {
   return (
@@ -14,18 +15,8 @@ const GenrePage = () => {
           >
             <Header icon="add" content="Create a Genre" />
             <Modal.Content>
-              <Form>
-                <Form.Field>
-                  <label>Name</label>
-                  <input placeholder="Drama, Thriller, Romance, etc." />
-                </Form.Field>
-              </Form>
+              <GenreForm />
             </Modal.Content>
-            <Modal.Actions>
-              <Button positive type="submit">
-                Create
-              </Button>
-            </Modal.Actions>
           </Modal>
         </Grid.Column>
       </Grid.Row>
