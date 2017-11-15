@@ -9,10 +9,24 @@
 @import './layouts/_homepage';
 @import './layouts/_loginpage';
 
-* {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: Raleway, sans-serif !important;
 }
 
 .pusher {
   background: #eaeef1 !important;
+}
+
+.bg-primary {
+  background: $color-purple !important;
+}
+
+.no-border-radius {
+  border-radius: 0 !important;
 }

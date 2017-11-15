@@ -6,7 +6,7 @@ import { sanitize } from 'express-validator/filter';
 import User from '../models/user';
 
 import passport from 'passport';
-// import passportConfig from '../passport';
+import passportConfig from '../passport';
 
 import user_controller from '../controllers/user';
 

@@ -12,8 +12,9 @@ passport.use(
       secretOrKey: config.JWT_SECRET,
     },
     async (payload, done) => {
+      console.log(payload);
       try {
-        const user = await User.findById(payload.sub, { password: 0 });
+        const user = await User.findById(payload.id, { password: 0 });
 
         if (!user) {
           return done(null, false, { message: 'Incorrect Email' });

@@ -1,10 +1,18 @@
 .dash_side_nav {
   background: #2a58ad !important;
+  // background: $color-purple !important;
   .item {
-    a {
+    padding: 0 !important;
+    a,
+    p {
       display: inline-block;
       height: 100%;
+      padding: 1rem;
       width: 100%;
+    }
+
+    p:hover {
+      cursor: pointer;
     }
   }
 }

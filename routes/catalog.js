@@ -2,6 +2,7 @@ import { Router } from 'express';
 const router = new Router();
 
 import passport from 'passport';
+import passportConfig from '../passport';
 
 const passportJWTAuth = passport.authenticate('jwt', { session: false });
 

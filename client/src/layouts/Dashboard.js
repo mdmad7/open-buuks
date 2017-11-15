@@ -19,6 +19,7 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       visible: false,
+      activeMenuItem: null,
     };
 
     this.handleLogout = this.handleLogout.bind(this);
@@ -30,12 +31,19 @@ class Dashboard extends Component {
     this.props.history.replace('/admin');
   }
 
+  handleMenuItemClick = (e, { name }) => {
+    console.log(name);
+    this.setState({ activeMenuItem: name }, () => {
+      console.log(this.state.activeMenuItem);
+    });
+  };
+
   toggleVisibility() {
     this.setState({ visible: !this.state.visible });
   }
 
   render() {
-    const { visible } = this.state;
+    const { visible, activeMenuItem } = this.state;
     return (
       <div className="main_dashboard_ui" style={{ height: '100vh' }}>
         <Sidebar.Pushable as={Segment}>
@@ -43,10 +51,20 @@ class Dashboard extends Component {
             visible={visible}
             logout={this.handleLogout}
             user={this.props.user}
+            handleMenuItemClick={this.handleMenuItemClick}
+            activeMenuItem={activeMenuItem}
           />
           <Sidebar.Pusher>
             <div>
-              <Button onClick={this.toggleVisibility}>Menu</Button>
+              <Button
+                onClick={this.toggleVisibility}
+                primary
+                // size="large"
+                content="Menu"
+                icon="content"
+                labelPosition="left"
+                className="no-border-radius"
+              />
               <Switch>
                 <Route exact path="/dashboard" component={HomePage} />
                 <Route path="/dashboard/author" component={AuthorPage} />
