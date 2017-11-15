@@ -8,7 +8,7 @@ const AuthorSchema = new Schema(
     date_of_birth: { type: Date },
     date_of_death: { type: Date },
   },
-  { timestamps: true },
+  { timestamps: true, toJSON: { virtuals: true, getters: true } },
 );
 
 // Virtual for author's full name
@@ -26,6 +26,11 @@ AuthorSchema.virtual('date_of_birth_formatted').get(function() {
   return this.date_of_birth
     ? moment(this.date_of_birth).format('MMMM Do, YYYY')
     : null;
+});
+
+// Virtual for author's full name
+AuthorSchema.virtual('fullname').get(function() {
+  return `${this.first_name} ${this.family_name}`;
 });
 
 AuthorSchema.virtual('date_of_death_formatted').get(function() {
