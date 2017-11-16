@@ -66,7 +66,8 @@ export const genre_create_post = (req, res) => {
 
       if (found_genre) {
         //Genre exists, redirect to its detail page
-        res.send(`the genre: ${found_genre} exists`);
+        // res.send(`the genre: ${found_genre} exists`);
+        res.json({ message: `${found_genre.name} already exists` });
       } else {
         genre.save((err, genre) => {
           if (err) {

@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 var GenreSchema = new Schema(
   {
-    name: { type: String, required: true, min: 3, max: 100 },
+    name: { type: String, required: true, min: 3, max: 100, unique: true },
   },
   { timestamps: true },
 );

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form, Message } from 'semantic-ui-react';
 class GenreForm extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      error: null,
+    };
   }
 
   handleChange = e => {
@@ -27,17 +29,29 @@ class GenreForm extends Component {
       },
     }).then(response => {
       console.log(response);
+      this.setState({
+        error: response.data.message,
+      });
     });
   };
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form
+        onSubmit={this.handleSubmit}
+        warning={this.state.error != null ? true : false}
+      >
         <Form.Field>
           <label>Name</label>
           <input
             placeholder="Drama, Thriller, Romance, etc."
             name="name"
             onChange={this.handleChange}
+            required
+          />
+          <Message
+            warning
+            header="Duplicate Entry"
+            content={`${this.state.name} already exists`}
           />
         </Form.Field>
         <Button color="green" type="submit">

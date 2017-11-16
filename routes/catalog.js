@@ -12,36 +12,52 @@ import * as author_controller from '../controllers/author';
 import * as genre_controller from '../controllers/genre';
 import * as book_instance_controller from '../controllers/bookinstance';
 
-router.get('/statscount', book_controller.stats);
+router.get('/statscount', passportJWTAuth, book_controller.stats);
 
 /// BOOK ROUTES ///
 /* POST request for creating Book. */
-router.post('/book/create', book_controller.book_create_post);
+router.post('/book/create', passportJWTAuth, book_controller.book_create_post);
 
 // POST request to delete Book
-router.post('/book/:id/delete', book_controller.book_delete_post);
+router.post(
+  '/book/:id/delete',
+  passportJWTAuth,
+  book_controller.book_delete_post,
+);
 
 // POST request to update Book
-router.post('/book/:id/update', book_controller.book_update_post);
+router.post(
+  '/book/:id/update',
+  passportJWTAuth,
+  book_controller.book_update_post,
+);
 
 /* GET request for one Book. */
-router.get('/book/:id', book_controller.book_detail);
+router.get('/book/:id', passportJWTAuth, book_controller.book_detail);
 
 /* GET request for list of all Book items. */
 router.get('/books', passportJWTAuth, book_controller.book_list);
 
 /// AUTHOR ROUTES ///
 /* POST request for creating Author. */
-router.post('/author/create', author_controller.author_create_post);
+router.post('/author', passportJWTAuth, author_controller.author_create_post);
 
 // POST request to delete Author
-router.post('/author/:id/delete', author_controller.author_delete_post);
+router.delete(
+  '/author/:id',
+  passportJWTAuth,
+  author_controller.author_delete_post,
+);
 
 // POST request to update Author
-router.post('/author/:id/update', author_controller.author_update_post);
+router.put(
+  '/author/:id',
+  passportJWTAuth,
+  author_controller.author_update_post,
+);
 
 /* GET request for one Author. */
-router.get('/author/:id', author_controller.author_detail);
+router.get('/author/:id', passportJWTAuth, author_controller.author_detail);
 
 /* GET request for list of all Authors. */
 router.get('/authors', passportJWTAuth, author_controller.author_list);
@@ -70,25 +86,36 @@ router.get('/genres', passportJWTAuth, genre_controller.genre_list);
 /* POST request for creating BookInstance. */
 router.post(
   '/bookinstance/create',
+  passportJWTAuth,
   book_instance_controller.bookinstance_create_post,
 );
 
 // POST request to delete BookInstance
-router.post(
+router.delete(
   '/bookinstance/:id/delete',
+  passportJWTAuth,
   book_instance_controller.bookinstance_delete_post,
 );
 
 // POST request to update BookInstance
-router.post(
+router.put(
   '/bookinstance/:id/update',
+  passportJWTAuth,
   book_instance_controller.bookinstance_update_post,
 );
 
 /* GET request for one BookInstance. */
-router.get('/bookinstance/:id', book_instance_controller.bookinstance_detail);
+router.get(
+  '/bookinstance/:id',
+  passportJWTAuth,
+  book_instance_controller.bookinstance_detail,
+);
 
 /* GET request for list of all BookInstance. */
-router.get('/bookinstances', book_instance_controller.bookinstance_list);
+router.get(
+  '/bookinstances',
+  passportJWTAuth,
+  book_instance_controller.bookinstance_list,
+);
 
 export default router;

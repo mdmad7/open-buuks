@@ -22,6 +22,9 @@ class Homepage extends Component {
     axios({
       method: 'get',
       url: '/catalog/statscount',
+      headers: {
+        Authorization: localStorage.getItem('id_token'),
+      },
     })
       .then(response => {
         this.setState({
