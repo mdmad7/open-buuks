@@ -30,3 +30,9 @@ h6 {
 .no-border-radius {
   border-radius: 0 !important;
 }
+
+.fakeBtn {
+  &:hover {
+    cursor: pointer;
+  }
+}

@@ -12,7 +12,6 @@ passport.use(
       secretOrKey: config.JWT_SECRET,
     },
     async (payload, done) => {
-      console.log(payload);
       try {
         const user = await User.findById(payload.id, { password: 0 });
 
