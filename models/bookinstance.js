@@ -13,7 +13,7 @@ var BookInstanceSchema = new Schema(
     },
     due_back: { type: Date, default: Date.now },
   },
-  { timestamps: true },
+  { timestamps: true, toJSON: { virtuals: true, getters: true } },
 );
 
 // Virtual for bookinstance's URL

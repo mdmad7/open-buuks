@@ -148,7 +148,7 @@ class GenrePage extends Component {
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell />
-                <Table.HeaderCell>Genre</Table.HeaderCell>
+                <Table.HeaderCell>Name</Table.HeaderCell>
                 <Table.HeaderCell>Edit</Table.HeaderCell>
                 <Table.HeaderCell>Delete</Table.HeaderCell>
               </Table.Row>
@@ -158,7 +158,7 @@ class GenrePage extends Component {
               {genres ? (
                 genres.map(genre => {
                   return (
-                    <Table.Row key={genre._id}>
+                    <Table.Row key={genre.id}>
                       <Table.Cell collapsing>
                         <Icon name="tag" />
                       </Table.Cell>

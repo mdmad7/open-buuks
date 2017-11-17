@@ -4,7 +4,7 @@ var GenreSchema = new Schema(
   {
     name: { type: String, required: true, min: 3, max: 100, unique: true },
   },
-  { timestamps: true },
+  { timestamps: true, toJSON: { virtuals: true, getters: true } },
 );
 
 // Virtual for bookinstance's URL
