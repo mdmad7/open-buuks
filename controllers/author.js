@@ -40,9 +40,6 @@ export const author_detail = (req, res, next) => {
 export const author_create_post = (req, res, next) => {
   req.checkBody('first_name', 'First name must be specified.').notEmpty(); //We won't force Alphanumeric, because people might have spaces.
   req.checkBody('family_name', 'Family name must be specified.').notEmpty();
-  req
-    .checkBody('family_name', 'Family name must be alphanumeric text.')
-    .isAlpha();
   req.checkBody('date_of_birth', 'Invalid date').optional({ checkFalsy: true });
   // .isDate();
   req.checkBody('date_of_death', 'Invalid date').optional({ checkFalsy: true });
@@ -50,16 +47,20 @@ export const author_create_post = (req, res, next) => {
 
   req.sanitize('first_name').escape();
   req.sanitize('family_name').escape();
+  // req.sanitize('bio').escape();
   req.sanitize('first_name').trim();
   req.sanitize('family_name').trim();
+  req.sanitize('bio').trim();
   req.sanitize('date_of_birth').toDate();
   req.sanitize('date_of_death').toDate();
 
+  console.log(req.body.first_name);
   const errors = req.validationErrors();
 
   const author = new Author({
     first_name: req.body.first_name,
     family_name: req.body.family_name,
+    bio: req.body.bio,
     date_of_birth: req.body.date_of_birth,
     date_of_death: req.body.date_of_death,
   });
@@ -118,40 +119,39 @@ export const author_delete_post = (req, res, next) => {
 
 // Handle Author update on POST
 export const author_update_post = (req, res) => {
-  req.sanitize('id').escape();
-  req.sanitize('id').trim();
-
-  req.checkBody('first_name', 'First name must be specified.').notEmpty();
-  req.checkBody('family_name', 'Family name must be specified.').notEmpty();
-  req
-    .checkBody('family_name', 'Family name must be alphanumeric text.')
-    .isAlpha();
-  req
-    .checkBody('date_of_birth', 'Invalid date')
-    .optional({ checkFalsy: true })
-    .isDate();
-  req
-    .checkBody('date_of_death', 'Invalid date')
-    .optional({ checkFalsy: true })
-    .isDate();
-  req.sanitize('first_name').escape();
-  req.sanitize('family_name').escape();
-  req.sanitize('first_name').trim();
-  req.sanitize('family_name').trim();
-  req.sanitize('date_of_birth').toDate();
-  req.sanitize('date_of_death').toDate();
-
-  //Run the validators
-  const errors = req.validationErrors();
+  console.log(req.body);
+  console.log(req.params.id);
+  // req.checkBody('first_name', 'First name must be specified.').notEmpty();
+  // req.checkBody('family_name', 'Family name must be specified.').notEmpty();
+  // req
+  //   .checkBody('date_of_birth', 'Invalid date')
+  //   .optional({ checkFalsy: true })
+  //   .isDate();
+  // req
+  //   .checkBody('date_of_death', 'Invalid date')
+  //   .optional({ checkFalsy: true })
+  //   .isDate();
+  // req.sanitize('first_name').escape();
+  // req.sanitize('family_name').escape();
+  // // req.sanitize('bio').escape();
+  // req.sanitize('first_name').trim();
+  // req.sanitize('family_name').trim();
+  // // req.sanitize('bio').trim();
+  // req.sanitize('date_of_birth').toDate();
+  // req.sanitize('date_of_death').toDate();
 
   //Create a author object with escaped and trimmed data (and the old id!)
   const author = new Author({
     first_name: req.body.first_name,
     family_name: req.body.family_name,
+    bio: req.body.bio,
     date_of_birth: req.body.date_of_birth,
     date_of_death: req.body.date_of_death,
     _id: req.params.id,
   });
+
+  //Run the validators
+  const errors = req.validationErrors();
 
   if (errors) {
     //If there are errors render the form again, passing the previously entered values and errors
@@ -161,7 +161,7 @@ export const author_update_post = (req, res) => {
     // Data from form is valid. Update the record.
     Author.findByIdAndUpdate(req.params.id, author, {}, (err, theauthor) => {
       if (err) {
-        res.send('an error occurred tryin to update an author');
+        return next(err);
       }
       //successful - display updated author
       res.json(theauthor);

@@ -138,6 +138,7 @@ export const genre_update_post = (req, res) => {
 
   if (errors) {
     res.json(errors);
+    return;
   } else {
     Genre.findByIdAndUpdate(req.params.id, genre, {}, (err, thegenre) => {
       if (err) {

@@ -134,7 +134,7 @@ class GenrePage extends Component {
                     error={this.state.error}
                     onSubmit={this.handleCreate}
                     actionname="Create"
-                    color="green"
+                    color="blue"
                     onChange={this.handleChange}
                     name={this.state.name}
                   />
@@ -155,7 +155,7 @@ class GenrePage extends Component {
             </Table.Header>
 
             <Table.Body>
-              {genres ? (
+              {genres && Object.keys(genres).length !== 0 ? (
                 genres.map(genre => {
                   return (
                     <Table.Row key={genre.id}>
@@ -175,7 +175,7 @@ class GenrePage extends Component {
                               error={error}
                               onSubmit={() => this.handleEdit(genre._id)}
                               actionname="Edit"
-                              color="blue"
+                              color="green"
                               onChange={this.handleChange}
                               genre={genre}
                             />

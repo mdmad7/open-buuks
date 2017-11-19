@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Button,
-  Form,
-  TextArea,
-  Input,
-  Icon,
-  Dropdown,
-} from 'semantic-ui-react';
+import { Button, Form, TextArea, Input, Icon } from 'semantic-ui-react';
 import axios from 'axios';
 
 class BookForm extends Component {
@@ -112,18 +105,6 @@ class BookForm extends Component {
               onChange={this.handleChange}
             />
           </Form.Field>
-          <Dropdown
-            options={this.state.allAuthors}
-            placeholder="Choose Languages"
-            search
-            selection
-            fluid
-            multiple
-            allowAdditions
-            // value={this.state.allAuthors}
-            // onAddItem={this.handleAddition}
-            // onChange={this.handleChange}
-          />
           <Form.Field>
             <label>ISBN</label>
             <input

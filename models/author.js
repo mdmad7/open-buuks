@@ -3,8 +3,8 @@ import moment from 'moment';
 
 const AuthorSchema = new Schema(
   {
-    first_name: { type: String, required: true, max: 100 },
-    family_name: { type: String, required: true, max: 100 },
+    first_name: { type: String, required: true },
+    family_name: { type: String, required: true },
     bio: { type: String },
     date_of_birth: { type: Date },
     date_of_death: { type: Date },
