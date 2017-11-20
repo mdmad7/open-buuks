@@ -1,156 +1,114 @@
-import React, { Component } from 'react';
-import { Button, Form, TextArea, Input, Icon } from 'semantic-ui-react';
-import axios from 'axios';
-
-class BookForm extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      title: '',
-      summary: '',
-      isbn: '',
-      searched: null,
-      loading: false,
-      allAuthors: [],
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
-  }
-
-  componentDidMount() {
-    axios({
-      method: 'get',
-      url: '/catalog/authors',
-      headers: {
-        Authorization: localStorage.getItem('id_token'),
-      },
-    })
-      .then(response => {
-        console.log(response);
-        this.setState({
-          allAuthors: response.data,
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-
-  handleSearch(e) {
-    e.preventDefault();
-    this.setState({ loading: true });
-    let isbn = `ISBN:${document.getElementById('isbnSearch').value}`;
-    axios
-      .get(
-        `https://openlibrary.org/api/books?bibkeys=${isbn}&jscmd=details&format=json`,
-      )
-      .then(response => {
-        let results = response.data;
-        Object.keys(results).forEach(details => {
-          this.setState({
-            searched: results[details],
-            loading: false,
-          });
-        });
-
-        // this.setState({
-        //   searched: Object.values(response.data),
-        // });
-      });
-  }
-
-  render() {
-    const { loading, searched } = this.state;
-    return (
-      <div>
-        {console.log(searched)}
-        <Form onSubmit={this.handleSearch}>
+import React from 'react';
+import {
+  Button,
+  Form,
+  TextArea,
+  Input,
+  Icon,
+  Dropdown,
+  Message,
+} from 'semantic-ui-react';
+const BookForm = ({
+  authors,
+  genres,
+  book,
+  loading,
+  searchBook,
+  onSubmit,
+  searchError,
+  actionname,
+  color,
+  onChange,
+  handleDropdownChange,
+  visibleMessage,
+  onDismiss,
+}) => {
+  return (
+    <div>
+      {color === 'blue' ? (
+        <Form
+          onSubmit={searchBook}
+          warning={searchError.switch !== false ? true : false}
+        >
           <Form.Field>
             <Input
-              icon={<Icon name="search" inverted circular link />}
+              icon={<Icon name="search" circular link />}
               id="isbnSearch"
-              name="isbn-search"
-              placeholder="Enter ISBN..."
+              name="isbnsearch"
+              placeholder="Search ISBN..."
+              onChange={onChange}
             />
-            {/* <Form.Button>
-              <Icon name="search" />
-            </Form.Button> */}
+            <Message warning content={searchError ? searchError.msg : ''} />
           </Form.Field>
         </Form>
-        <Form loading={loading}>
-          <Form.Field>
-            <label>Title</label>
-            <input
-              placeholder="Title"
-              name="title"
-              value={searched ? searched.details.title : ''}
-              onChange={this.handleChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Author</label>
-            <input
-              placeholder="Author"
-              name="author"
-              value={
-                searched && searched.details.authors
-                  ? searched.details.authors.map(author => author.name)
-                  : ''
-              }
-              onChange={this.handleChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>ISBN</label>
-            <input
-              placeholder="ISBN"
-              name="isbn"
-              value={
-                searched && searched.details.isbn_10
-                  ? searched.details.isbn_10
-                  : ''
-              }
-              onChange={this.handleChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Summary</label>
-            <TextArea
-              placeholder="Summary"
-              name="summary"
-              value={
-                searched && searched.details.description
-                  ? searched.details.description.value
-                  : ''
-              }
-              autoHeight
-              onChange={this.handleChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            {/* <Dropdown
-              options={this.state.options}
-              placeholder="Choose Languages"
-              search
-              selection
-              fluid
-              multiple
-              allowAdditions
-              value={currentValues}
-              onAddItem={this.handleAddition}
-              onChange={this.handleChange}
-            /> */}
-          </Form.Field>
-          <Button type="submit">Submit</Button>
-        </Form>
-      </div>
-    );
-  }
-}
+      ) : null}
+
+      <Form loading={loading} onSubmit={onSubmit}>
+        <Form.Field>
+          <label>Title</label>
+          <input
+            placeholder="Title"
+            name="title"
+            value={book.title ? book.title : ''}
+            onChange={onChange}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Author</label>
+          <Dropdown
+            placeholder="Select Author"
+            fluid
+            selection
+            search
+            name="book_author"
+            value={book ? book.author : ''}
+            onChange={handleDropdownChange}
+            options={authors}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>ISBN</label>
+          <input
+            placeholder="ISBN"
+            name="isbn"
+            value={book.isbn ? book.isbn : ''}
+            onChange={onChange}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Summary</label>
+          <TextArea
+            placeholder="Summary"
+            name="summary"
+            value={book.summary ? book.summary : ''}
+            autoHeight
+            onChange={onChange}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Genres</label>
+          <Dropdown
+            placeholder="Select Genres"
+            fluid
+            selection
+            multiple
+            name="genre_array"
+            search
+            onChange={handleDropdownChange}
+            value={book ? book.genre_array : []}
+            options={genres}
+          />
+        </Form.Field>
+        <Button color={color} type="submit">
+          {actionname}
+        </Button>
+
+        {visibleMessage !== false && color === 'green' ? (
+          <Message positive onDismiss={onDismiss} header="Edit Successful" />
+        ) : null}
+      </Form>
+    </div>
+  );
+};
 
 export default BookForm;

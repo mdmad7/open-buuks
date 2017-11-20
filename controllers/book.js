@@ -38,8 +38,9 @@ export const stats = (req, res) => {
 
 // Display list of all books
 export const book_list = (req, res) => {
-  Book.find({}, 'title author')
+  Book.find()
     .populate('author')
+    .populate('genre')
     .exec((err, list_books) => {
       if (err) {
         return next(err);
@@ -77,28 +78,29 @@ export const book_detail = (req, res) => {
 
 // Handle book create on POST
 export const book_create_post = (req, res) => {
-  req.checkBody('title', 'Title must not be empty.').notEmpty();
-  req.checkBody('author', 'Author must not be empty').notEmpty();
-  req.checkBody('summary', 'Summary must not be empty').notEmpty();
-  req.checkBody('isbn', 'ISBN must not be empty').notEmpty();
+  // req.checkBody('title', 'Title must not be empty.').notEmpty();
+  // req.checkBody('author', 'Author must not be empty').notEmpty();
+  // req.checkBody('summary', 'Summary must not be empty').notEmpty();
+  // req.checkBody('isbn', 'ISBN must not be empty').notEmpty();
 
-  req.sanitize('title').escape();
-  req.sanitize('author').escape();
-  req.sanitize('summary').escape();
-  req.sanitize('isbn').escape();
-  req.sanitize('title').trim();
-  req.sanitize('author').trim();
-  req.sanitize('summary').trim();
-  req.sanitize('isbn').trim();
-  req.sanitize('genre').escape();
+  // req.sanitize('title').escape();
+  // req.sanitize('author').escape();
+  // req.sanitize('summary').escape();
+  // req.sanitize('isbn').escape();
+  // req.sanitize('title').trim();
+  // req.sanitize('author').trim();
+  // req.sanitize('summary').trim();
+  // req.sanitize('isbn').trim();
+  // req.sanitize('genre').escape();
 
   const book = new Book({
     title: req.body.title,
     author: req.body.author,
     summary: req.body.summary,
     isbn: req.body.isbn,
-    genre:
-      typeof req.body.genre === 'undefined' ? [] : req.body.genre.split(','),
+    genre: req.body.genre,
+    // genre:
+    //   typeof req.body.genre === 'undefined' ? [] : req.body.genre.split(','),
   });
 
   const errors = req.validationErrors();
@@ -186,32 +188,33 @@ export const book_delete_post = (req, res) => {
 // Handle book update on POST
 export const book_update_post = (req, res) => {
   //Sanitize id passed in.
-  req.sanitize('id').escape();
-  req.sanitize('id').trim();
+  // req.sanitize('id').escape();
+  // req.sanitize('id').trim();
 
-  //Check other data
-  req.checkBody('title', 'Title must not be empty.').notEmpty();
-  req.checkBody('author', 'Author must not be empty').notEmpty();
-  req.checkBody('summary', 'Summary must not be empty').notEmpty();
-  req.checkBody('isbn', 'ISBN must not be empty').notEmpty();
+  // //Check other data
+  // req.checkBody('title', 'Title must not be empty.').notEmpty();
+  // req.checkBody('author', 'Author must not be empty').notEmpty();
+  // req.checkBody('summary', 'Summary must not be empty').notEmpty();
+  // req.checkBody('isbn', 'ISBN must not be empty').notEmpty();
 
-  req.sanitize('title').escape();
-  req.sanitize('author').escape();
-  req.sanitize('summary').escape();
-  req.sanitize('isbn').escape();
-  // req.sanitize('genre').escape();
-  req.sanitize('title').trim();
-  req.sanitize('author').trim();
-  req.sanitize('summary').trim();
-  req.sanitize('isbn').trim();
-  // req.sanitize('genre').trim();
+  // req.sanitize('title').escape();
+  // req.sanitize('author').escape();
+  // req.sanitize('summary').escape();
+  // req.sanitize('isbn').escape();
+  // // req.sanitize('genre').escape();
+  // req.sanitize('title').trim();
+  // req.sanitize('author').trim();
+  // req.sanitize('summary').trim();
+  // req.sanitize('isbn').trim();
+  // // req.sanitize('genre').trim();
 
   const book = new Book({
     title: req.body.title,
     author: req.body.author,
     summary: req.body.summary,
     isbn: req.body.isbn,
-    genre: typeof req.body.genre === 'undefined' ? [] : req.body.genre,
+    genre: req.body.genre,
+    // genre: typeof req.body.genre === 'undefined' ? [] : req.body.genre,
     _id: req.params.id, //This is required, or a new ID will be assigned!
   });
 

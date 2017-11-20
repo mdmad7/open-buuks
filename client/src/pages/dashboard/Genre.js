@@ -103,7 +103,7 @@ class GenrePage extends Component {
     });
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this.reloadGenres();
   }
 
@@ -147,7 +147,6 @@ class GenrePage extends Component {
           <Table celled striped>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell />
                 <Table.HeaderCell>Name</Table.HeaderCell>
                 <Table.HeaderCell>Edit</Table.HeaderCell>
                 <Table.HeaderCell>Delete</Table.HeaderCell>

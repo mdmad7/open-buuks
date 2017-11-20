@@ -76,7 +76,7 @@ class AuthorPage extends Component {
         Authorization: localStorage.getItem('id_token'),
       },
     }).then(response => {
-      console.log(Object.keys(response.data).length);
+      // console.log(Object.keys(response.data).length);
       this.setState({
         authors: response.data,
       });
@@ -88,13 +88,7 @@ class AuthorPage extends Component {
     this.setState({ loading: true });
     let name = document.getElementById('authorSearch').value;
     axios
-      .get(`http://openlibrary.org/search.json?author=${name}`, {
-        headers: {
-          // 'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
-          // 'Access-Control-Allow-Headers':
-          //   'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
-        },
-      })
+      .get(`http://openlibrary.org/search.json?author=${name}`)
       .then(response => {
         if (response.data.numFound !== 0) {
           return response.data.docs[0].author_key[0];
@@ -150,18 +144,13 @@ class AuthorPage extends Component {
       },
     }).then(response => {
       console.log(response.data);
-      this.setState(
-        {
-          first_name: response.data.author.first_name,
-          family_name: response.data.author.family_name,
-          bio: response.data.author.bio,
-          date_of_birth: response.data.author.date_of_birth,
-          date_of_death: response.data.author.date_of_death,
-        },
-        () => {
-          console.log(this.state.bio);
-        },
-      );
+      this.setState({
+        first_name: response.data.author.first_name,
+        family_name: response.data.author.family_name,
+        bio: response.data.author.bio,
+        date_of_birth: response.data.author.date_of_birth,
+        date_of_death: response.data.author.date_of_death,
+      });
     });
   };
 
@@ -216,7 +205,7 @@ class AuthorPage extends Component {
     });
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.loadAuthors();
     // this.searchAuthor();
   }
@@ -312,6 +301,7 @@ class AuthorPage extends Component {
                                 date_of_birth: this.state.date_of_birth,
                                 date_of_death: this.state.date_of_death,
                               }}
+                              // author={author}
                               onDismiss={this.handleDismiss}
                               visibleMessage={this.state.visibleMessage}
                               searchError={this.state.searchError}
