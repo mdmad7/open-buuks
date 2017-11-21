@@ -12,6 +12,7 @@ import GenrePage from '../pages/dashboard/Genre';
 import BookPage from '../pages/dashboard/Book';
 import BookInstancePage from '../pages/dashboard/Bookinstance';
 import HomePage from '../pages/dashboard/Home';
+import SignUp from '../pages/dashboard/SignUp';
 const Auth = new authService();
 
 class Dashboard extends Component {
@@ -63,7 +64,14 @@ class Dashboard extends Component {
                 className="no-border-radius"
               />
               <Switch>
-                <Route exact path="/dashboard/index" component={HomePage} />
+                {/* <Route exact path="/dashboard/index" component={HomePage} /> */}
+                <Route
+                  exact
+                  path="/dashboard/index"
+                  render={routeProps => (
+                    <HomePage {...routeProps} {...this.props.user} />
+                  )}
+                />
                 <Route path="/dashboard/author" component={AuthorPage} />
                 <Route path="/dashboard/book" component={BookPage} />
                 <Route
@@ -71,6 +79,7 @@ class Dashboard extends Component {
                   component={BookInstancePage}
                 />
                 <Route path="/dashboard/genre" component={GenrePage} />
+                <Route path="/dashboard/signup" component={SignUp} />
               </Switch>
             </div>
           </Sidebar.Pusher>

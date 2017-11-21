@@ -23,6 +23,9 @@ export const stats = (req, res) => {
       book_instance_maintenance_count: callback => {
         BookInstance.count({ status: 'Maintenance' }, callback);
       },
+      book_instance_reserved_count: callback => {
+        BookInstance.count({ status: 'Reserved' }, callback);
+      },
       author_count: callback => {
         Author.count(callback);
       },

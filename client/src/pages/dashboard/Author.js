@@ -255,7 +255,7 @@ class AuthorPage extends Component {
         </Grid>
 
         <Segment>
-          <Table celled striped singleLine fixed>
+          <Table celled striped singleLine fixed selectable>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>Name</Table.HeaderCell>

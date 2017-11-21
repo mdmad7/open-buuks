@@ -82,6 +82,18 @@ const DashSideNav = ({
           Genre
         </NavLink>
       </Menu.Item>
+      <Menu.Item name="signup">
+        <NavLink
+          to="/dashboard/signup"
+          activeStyle={{
+            fontWeight: 'bold',
+            backgroundColor: '#bf545d',
+          }}
+        >
+          <Icon name="users" />
+          Sign Up
+        </NavLink>
+      </Menu.Item>
       <Menu.Item name="logout">
         <Modal
           trigger={
@@ -100,7 +112,7 @@ const DashSideNav = ({
             <p>Are you sure you want to log out?</p>
           </Modal.Content>
           <Modal.Actions>
-            <Button color="green" inverted onClick={logout}>
+            <Button color="red" inverted onClick={logout}>
               <Icon name="checkmark" /> Log Out
             </Button>
           </Modal.Actions>

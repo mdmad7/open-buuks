@@ -67,6 +67,17 @@
     border-right: none !important;
     border-top: none !important; }
 
+.signup_page {
+  align-items: center;
+  display: flex;
+  min-height: 80vh;
+  justify-content: center;
+  width: 100vw; }
+  .signup_page .signup_card {
+    background: #ffffff;
+    padding: 1rem;
+    min-width: 400px; }
+
 p,
 h1,
 h2,
@@ -77,7 +88,7 @@ h6 {
   font-family: Raleway, sans-serif !important; }
 
 .pusher {
-  background: #eaeef1 !important; }
+  background-image: linear-gradient(46deg, rgba(44, 50, 101, 0.9) 0%, rgba(191, 84, 93, 0.9) 100%) !important; }
 
 .bg-primary {
   background: #2c3265 !important; }
@@ -90,3 +101,6 @@ h6 {
 
 .primary {
   background: #2c3265 !important; }
+
+.text-capitalize {
+  text-transform: capitalize; }

@@ -8,6 +8,7 @@
 // Page styles
 @import './layouts/_homepage';
 @import './layouts/_loginpage';
+@import './layouts/_signuppage';
 
 p,
 h1,
@@ -20,7 +21,11 @@ h6 {
 }
 
 .pusher {
-  background: #eaeef1 !important;
+  background-image: linear-gradient(
+    46deg,
+    rgba(#2c3265, 0.9) 0%,
+    rgba(#bf545d, 0.9)100%
+  ) !important;
 }
 
 .bg-primary {
@@ -39,4 +44,8 @@ h6 {
 
 .primary {
   background: $color-purple !important;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
 }
