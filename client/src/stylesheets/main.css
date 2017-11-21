@@ -15,7 +15,7 @@
     width: 100%; }
 
 .dash_side_nav {
-  background: #2a58ad !important; }
+  background: #2c3265 !important; }
   .dash_side_nav .item {
     padding: 0 !important; }
     .dash_side_nav .item a,
@@ -87,3 +87,6 @@ h6 {
 
 .fakeBtn:hover {
   cursor: pointer; }
+
+.primary {
+  background: #2c3265 !important; }

@@ -243,7 +243,7 @@ class BookInstancePage extends Component {
             </Table.Header>
 
             <Table.Body>
-              {bookinstances ? (
+              {bookinstances && Object.keys(bookinstances).length !== 0 ? (
                 bookinstances.map(bookinstance => {
                   return (
                     <Table.Row key={bookinstance.id}>

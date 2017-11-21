@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Grid, Segment } from 'semantic-ui-react';
-import {
-  PieChart,
-  Pie,
-  Tooltip,
-  LabelList,
-  ResponsiveContainer,
-} from 'recharts';
 
 class Homepage extends Component {
   constructor(props) {
@@ -38,11 +31,6 @@ class Homepage extends Component {
 
   render() {
     const { datacount } = this.state;
-    const data01 = [
-      { name: 'Maintenance', value: 4 },
-      { name: 'Loaned', value: 2 },
-      { name: 'Available', value: 5 },
-    ];
     return (
       <div>
         <Grid columns="equal" centered stackable>
@@ -81,23 +69,6 @@ class Homepage extends Component {
             <Grid.Column>
               <Segment>
                 <h4>Book Status</h4>
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart width={200} height={200}>
-                    <Pie
-                      data={data01}
-                      dataKey="value"
-                      nameKey="name"
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={100}
-                      fill="#8884d8"
-                      label
-                    >
-                      <LabelList dataKey="name" position="top" />
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
               </Segment>
             </Grid.Column>
             <Grid.Column>

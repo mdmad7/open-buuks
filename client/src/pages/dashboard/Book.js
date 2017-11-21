@@ -367,7 +367,7 @@ class BookPage extends Component {
             </Table.Header>
 
             <Table.Body>
-              {books ? (
+              {books && Object.keys(books).length !== 0 ? (
                 books.map(book => {
                   return (
                     <Table.Row key={book.id}>

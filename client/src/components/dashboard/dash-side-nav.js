@@ -1,6 +1,6 @@
 import React from 'react';
 import { Sidebar, Menu, Icon, Modal, Button, Header } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const DashSideNav = ({
   visible,
@@ -12,7 +12,7 @@ const DashSideNav = ({
   return (
     <Sidebar
       as={Menu}
-      animation="push"
+      animation="slide along"
       width="thin"
       visible={visible}
       vertical
@@ -23,40 +23,66 @@ const DashSideNav = ({
         <span>Welcome {user.firstName}</span>
       </Menu.Item> */}
       <Menu.Item name="home">
-        <Link to="/dashboard">
+        <NavLink
+          to="/dashboard/index"
+          activeStyle={{
+            fontWeight: 'bold',
+            backgroundColor: '#bf545d',
+          }}
+        >
           <Icon name="home" />
           Home
-        </Link>
+        </NavLink>
       </Menu.Item>
-      <Menu.Item name="user">
-        <Link to="/dashboard/author">
+      <Menu.Item name="author">
+        <NavLink
+          to="/dashboard/author"
+          activeStyle={{
+            fontWeight: 'bold',
+            backgroundColor: '#bf545d',
+          }}
+        >
           <Icon name="user" />
           Author
-        </Link>
+        </NavLink>
       </Menu.Item>
       <Menu.Item name="book">
-        <Link to="/dashboard/book">
+        <NavLink
+          to="/dashboard/book"
+          activeStyle={{
+            fontWeight: 'bold',
+            backgroundColor: '#bf545d',
+          }}
+        >
           <Icon name="book" />
           Book
-        </Link>
+        </NavLink>
       </Menu.Item>
       <Menu.Item name="bookinstance">
-        <Link to="/dashboard/bookinstance">
+        <NavLink
+          to="/dashboard/bookinstance"
+          activeStyle={{
+            fontWeight: 'bold',
+            backgroundColor: '#bf545d',
+          }}
+        >
           <Icon name="table" />
           Book Instance
-        </Link>
+        </NavLink>
       </Menu.Item>
       <Menu.Item name="genre">
-        <Link to="/dashboard/genre">
+        <NavLink
+          to="/dashboard/genre"
+          activeStyle={{
+            fontWeight: 'bold',
+            backgroundColor: '#bf545d',
+          }}
+        >
           <Icon name="tag" />
           Genre
-        </Link>
+        </NavLink>
       </Menu.Item>
       <Menu.Item name="logout">
-        {/* <Link to="" >
-          <Icon name="power" />
-          Log Out
-        </Link> */}
         <Modal
           trigger={
             <p>

@@ -30,7 +30,7 @@ class LoginForm extends Component {
           ? this.setState({
               error: res.data.error,
             })
-          : this.props.history.replace('/dashboard');
+          : this.props.history.replace('/dashboard/index');
       })
       .catch(err => {
         console.log(err);

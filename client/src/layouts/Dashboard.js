@@ -19,7 +19,7 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       visible: false,
-      activeMenuItem: null,
+      activeMenuItem: '',
     };
 
     this.handleLogout = this.handleLogout.bind(this);
@@ -32,10 +32,7 @@ class Dashboard extends Component {
   }
 
   handleMenuItemClick = (e, { name }) => {
-    console.log(name);
-    this.setState({ activeMenuItem: name }, () => {
-      console.log(this.state.activeMenuItem);
-    });
+    this.setState({ activeMenuItem: name });
   };
 
   toggleVisibility() {
@@ -66,7 +63,7 @@ class Dashboard extends Component {
                 className="no-border-radius"
               />
               <Switch>
-                <Route exact path="/dashboard" component={HomePage} />
+                <Route exact path="/dashboard/index" component={HomePage} />
                 <Route path="/dashboard/author" component={AuthorPage} />
                 <Route path="/dashboard/book" component={BookPage} />
                 <Route
