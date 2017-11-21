@@ -99,6 +99,8 @@ export const book_create_post = (req, res) => {
     summary: req.body.summary,
     isbn: req.body.isbn,
     genre: req.body.genre,
+    publisher: req.body.publisher,
+    year_of_publication: req.body.year_of_publication,
     // genre:
     //   typeof req.body.genre === 'undefined' ? [] : req.body.genre.split(','),
   });
@@ -214,6 +216,8 @@ export const book_update_post = (req, res) => {
     summary: req.body.summary,
     isbn: req.body.isbn,
     genre: req.body.genre,
+    publisher: req.body.publisher,
+    year_of_publication: req.body.year_of_publication,
     // genre: typeof req.body.genre === 'undefined' ? [] : req.body.genre,
     _id: req.params.id, //This is required, or a new ID will be assigned!
   });

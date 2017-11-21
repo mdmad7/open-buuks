@@ -61,6 +61,7 @@ const BookForm = ({
             selection
             search
             name="book_author"
+            upward
             value={book ? book.author : ''}
             onChange={handleDropdownChange}
             options={authors}
@@ -86,12 +87,32 @@ const BookForm = ({
           />
         </Form.Field>
         <Form.Field>
+          <label>Publisher</label>
+          <input
+            placeholder="Publisher"
+            name="publisher"
+            value={book.publisher ? book.publisher : ''}
+            onChange={onChange}
+          />
+        </Form.Field>
+        <Form.Field>
+          {console.log(book)}
+          <label>Publish Year</label>
+          <input
+            placeholder="Year of Plublication"
+            name="year_of_publication"
+            value={book.year_of_publication ? book.year_of_publication : ''}
+            onChange={onChange}
+          />
+        </Form.Field>
+        <Form.Field>
           <label>Genres</label>
           <Dropdown
             placeholder="Select Genres"
             fluid
             selection
             multiple
+            upward
             name="genre_array"
             search
             onChange={handleDropdownChange}

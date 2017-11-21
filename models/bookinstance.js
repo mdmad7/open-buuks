@@ -4,14 +4,13 @@ import moment from 'moment';
 var BookInstanceSchema = new Schema(
   {
     book: { type: Schema.ObjectId, ref: 'Book', required: true }, //reference to the associated book
-    imprint: { type: String, required: true },
     status: {
       type: String,
       required: true,
       enum: ['Available', 'Maintenance', 'Loaned', 'Reserved'],
-      default: 'Maintenance',
+      default: 'Available',
     },
-    due_back: { type: Date, default: Date.now },
+    due_back: { type: Date },
   },
   { timestamps: true, toJSON: { virtuals: true, getters: true } },
 );

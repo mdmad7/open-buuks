@@ -58,6 +58,8 @@ class BookPage extends Component {
         summary: this.state.summary,
         isbn: this.state.isbn,
         genre: this.state.genre_array,
+        publisher: this.state.publisher,
+        year_of_publication: this.state.year_of_publication,
       },
       headers: {
         Authorization: localStorage.getItem('id_token'),
@@ -69,6 +71,8 @@ class BookPage extends Component {
         summary: '',
         isbn: '',
         genre_array: [''],
+        publisher: '',
+        year_of_publication: '',
         error: response.data.message,
       });
 
@@ -102,6 +106,8 @@ class BookPage extends Component {
             isbn: response.data.book.isbn,
             summary: response.data.book.summary,
             genre_array: selectedGenres,
+            publisher: response.data.book.publisher,
+            year_of_publication: response.data.book.year_of_publication,
           },
           () => {
             // console.log(this.state.genre_array);
@@ -123,6 +129,8 @@ class BookPage extends Component {
         summary: this.state.summary,
         isbn: this.state.isbn,
         genre: this.state.genre_array,
+        publisher: this.state.publisher,
+        year_of_publication: this.state.year_of_publication,
       },
       headers: {
         Authorization: localStorage.getItem('id_token'),
@@ -136,6 +144,8 @@ class BookPage extends Component {
           book_author: '',
           summary: '',
           isbn: '',
+          publisher: '',
+          year_of_publication: '',
           genre_array: [],
         },
         () => {
@@ -178,18 +188,25 @@ class BookPage extends Component {
           this.setState({ loading: false });
           let results = response.data;
           Object.keys(results).forEach(details => {
-            results[details].details.description
-              ? this.setState({
-                  searchResult: results[details],
-                  title: results[details].details.title,
-                  summary: results[details].details.description.value,
-                  isbn: results[details].details.isbn_10[0],
-                })
-              : this.setState({
-                  searchResult: results[details],
-                  title: results[details].details.title,
-                  isbn: results[details].details.isbn_10[0],
-                });
+            this.setState(
+              {
+                searchResult: results[details],
+                title: results[details].details.title,
+                book_author: '',
+                genre_array: [],
+                summary: results[details].details.description
+                  ? results[details].details.description.value
+                  : '',
+                publisher: results[details].details.publishers[0],
+                year_of_publication: results[details].details.publish_date,
+                isbn: results[details].details.isbn_10
+                  ? results[details].details.isbn_10[0]
+                  : results[details].details.isbn_13[0],
+              },
+              () => {
+                console.log(this.state.publisher);
+              },
+            );
           });
         } else {
           this.setState(
@@ -197,6 +214,8 @@ class BookPage extends Component {
               title: '',
               summary: '',
               isbn: '',
+              publisher: '',
+              year_of_publication: '',
               book_author: '',
               genre_array: '',
               searchError: {
@@ -315,6 +334,8 @@ class BookPage extends Component {
                       isbn: this.state.isbn,
                       summary: this.state.summary,
                       genre_array: this.state.genre_array,
+                      publisher: this.state.publisher,
+                      year_of_publication: this.state.year_of_publication,
                     }}
                     handleDropdownChange={this.handleDropdownChange}
                     searchError={this.state.searchError}
@@ -394,6 +415,9 @@ class BookPage extends Component {
                                 isbn: this.state.isbn,
                                 summary: this.state.summary,
                                 genre_array: this.state.genre_array,
+                                publisher: this.state.publisher,
+                                year_of_publication: this.state
+                                  .year_of_publication,
                               }}
                               visibleMessage={this.state.visibleMessage}
                               onDismiss={this.handleDismiss}

@@ -31,24 +31,23 @@ export const bookinstance_detail = (req, res) => {
 
 // Handle BookInstance create on POST
 export const bookinstance_create_post = (req, res) => {
-  req.checkBody('book', 'Book must be specified').notEmpty(); //We won't force Alphanumeric, because book titles might have spaces.
-  req.checkBody('imprint', 'Imprint must be specified').notEmpty();
-  req
-    .checkBody('due_back', 'Invalid date')
-    .optional({ checkFalsy: true })
-    .isDate();
+  // req.checkBody('book', 'Book must be specified').notEmpty(); //We won't force Alphanumeric, because book titles might have spaces.
+  // req.checkBody('imprint', 'Imprint must be specified').notEmpty();
+  // req
+  //   .checkBody('due_back', 'Invalid date')
+  //   .optional({ checkFalsy: true })
+  //   .isDate();
 
-  req.sanitize('book').escape();
-  req.sanitize('imprint').escape();
-  req.sanitize('status').escape();
-  req.sanitize('book').trim();
-  req.sanitize('imprint').trim();
-  req.sanitize('status').trim();
-  req.sanitize('due_back').toDate();
+  // req.sanitize('book').escape();
+  // req.sanitize('imprint').escape();
+  // req.sanitize('status').escape();
+  // req.sanitize('book').trim();
+  // req.sanitize('imprint').trim();
+  // req.sanitize('status').trim();
+  // req.sanitize('due_back').toDate();
 
   const bookinstance = new BookInstance({
     book: req.body.book,
-    imprint: req.body.imprint,
     status: req.body.status,
     due_back: req.body.due_back,
   });
@@ -91,26 +90,25 @@ export const bookinstance_delete_post = (req, res) => {
 };
 
 // Handle bookinstance update on POST
-export const bookinstance_update_post = (req, res) => {
-  req.sanitize('id').escape();
-  req.sanitize('id').trim();
+export const bookinstance_update_post = (req, res, next) => {
+  // req.sanitize('id').escape();
+  // req.sanitize('id').trim();
 
-  req.checkBody('book', 'Book must be specified').notEmpty(); //We won't force Alphanumeric, because people might have spaces.
-  req.checkBody('imprint', 'Imprint must be specified').notEmpty();
-  req.checkBody('due_back', 'Invalid date').optional({ checkFalsy: true });
-  // .isDate();
+  // req.checkBody('book', 'Book must be specified').notEmpty(); //We won't force Alphanumeric, because people might have spaces.
+  // req.checkBody('imprint', 'Imprint must be specified').notEmpty();
+  // req.checkBody('due_back', 'Invalid date').optional({ checkFalsy: true });
+  // // .isDate();
 
-  req.sanitize('book').escape();
-  req.sanitize('imprint').escape();
-  req.sanitize('status').escape();
-  req.sanitize('book').trim();
-  req.sanitize('imprint').trim();
-  req.sanitize('status').trim();
-  req.sanitize('due_back').toDate();
+  // req.sanitize('book').escape();
+  // req.sanitize('imprint').escape();
+  // req.sanitize('status').escape();
+  // req.sanitize('book').trim();
+  // req.sanitize('imprint').trim();
+  // req.sanitize('status').trim();
+  // req.sanitize('due_back').toDate();
 
   var bookinstance = new BookInstance({
     book: req.body.book,
-    imprint: req.body.imprint,
     status: req.body.status,
     due_back: req.body.due_back,
     _id: req.params.id,
