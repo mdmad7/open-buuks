@@ -30,6 +30,9 @@ router.get('/book/:id', passportJWTAuth, book_controller.book_detail);
 /* GET request for list of all Book items. */
 router.get('/books', passportJWTAuth, book_controller.book_list);
 
+/* GET request for list of all Book items for searchbox */
+router.get('/books/search', book_controller.book_list_search);
+
 /// AUTHOR ROUTES ///
 /* POST request for creating Author. */
 router.post('/author', passportJWTAuth, author_controller.author_create_post);

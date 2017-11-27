@@ -1,5 +1,10 @@
 .home_page {
   align-items: center;
+  background-image: linear-gradient(
+    -46deg,
+    rgba(#2c3265, 0.8) 0%,
+    rgba(#bf545d, 0.8)100%
+  );
   display: flex;
   min-height: 100vh;
   justify-content: center;

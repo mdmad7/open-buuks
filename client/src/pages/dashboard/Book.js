@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import axios from 'axios';
 import {
   Grid,
@@ -8,14 +9,22 @@ import {
   Table,
   Segment,
   Icon,
+  Label,
 } from 'semantic-ui-react';
-import BookForm from '../../components/dashboard/book-form';
 
+import BookForm from '../../components/dashboard/book-form';
+import BookDetails from '../../components/dashboard/book-details';
+import SearchBox from '../../components/dashboard/searchbar';
 class BookPage extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      isLoading: false,
+      value: '',
+      results: [],
+      column: null,
+      direction: null,
       genres: null,
       authors: null,
       books: null,
@@ -32,6 +41,25 @@ class BookPage extends Component {
 
     // this.confirmDelete = this.confirmDelete.bind(this);
   }
+
+  handleSort = clickedColumn => () => {
+    const { column, books, direction } = this.state;
+
+    if (column !== clickedColumn) {
+      this.setState({
+        column: clickedColumn,
+        books: _.sortBy(books, [clickedColumn]),
+        direction: 'ascending',
+      });
+
+      return;
+    }
+
+    this.setState({
+      books: books.reverse(),
+      direction: direction === 'ascending' ? 'descending' : 'ascending',
+    });
+  };
 
   handleDropdownChange = (e, { name, value }) => {
     this.setState({
@@ -180,7 +208,9 @@ class BookPage extends Component {
     let isbn = `ISBN:${this.state.isbnsearch}`;
     axios
       .get(
-        `https://openlibrary.org/api/books?bibkeys=${isbn}&jscmd=details&format=json`,
+        `https://openlibrary.org/api/books?bibkeys=${
+          isbn
+        }&jscmd=details&format=json`,
       )
       .then(response => {
         console.log(response);
@@ -288,10 +318,37 @@ class BookPage extends Component {
       },
     }).then(response => {
       // console.log(response.data);
-      this.setState({
-        books: response.data,
-      });
+      this.setState(
+        {
+          books: response.data,
+        },
+        () => {
+          console.log(this.state.books);
+        },
+      );
     });
+  };
+
+  resetComponent = () =>
+    this.setState({ isLoading: false, results: [], value: '' });
+
+  handleResultSelect = (e, { result }) =>
+    this.setState({ value: result.title });
+
+  handleSearchChange = (e, { value }) => {
+    this.setState({ isLoading: true, value });
+
+    setTimeout(() => {
+      if (this.state.value.length < 1) return this.resetComponent();
+
+      const re = new RegExp(_.escapeRegExp(this.state.value), 'i');
+      const isMatch = result => re.test(result.title);
+
+      this.setState({
+        isLoading: false,
+        results: _.filter(this.state.books, isMatch),
+      });
+    }, 500);
   };
 
   componentWillMount() {
@@ -299,7 +356,26 @@ class BookPage extends Component {
   }
 
   render() {
-    const { books, error, modalOpen } = this.state;
+    const {
+      books,
+      error,
+      modalOpen,
+      direction,
+      column,
+      isLoading,
+      value,
+      results,
+    } = this.state;
+
+    // const resultRenderer = ({ title }) => <Label content={title} />;
+    const resultRenderer = result => {
+      return (
+        <Modal trigger={<a className="fakeBtn">{result.title}</a>}>
+          {/* <Modal.Header>{book.title}</Modal.Header> */}
+          <BookDetails book={result} />
+        </Modal>
+      );
+    };
     return (
       <div>
         <Grid textAlign="right">
@@ -352,15 +428,54 @@ class BookPage extends Component {
           </Grid.Row>
         </Grid>
 
+        <div className="author_search_div">
+          <div className="author_search">
+            <SearchBox
+              isLoading={isLoading}
+              results={results}
+              value={value}
+              resetComponent={this.resetComponent}
+              handleResultSelect={this.handleResultSelect}
+              handleSearchChange={this.handleSearchChange}
+              resultRenderer={resultRenderer}
+            />
+          </div>
+        </div>
+
         <Segment>
-          <Table celled striped singleLine fixed>
+          <Table celled striped singleLine fixed sortable>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Title</Table.HeaderCell>
-                <Table.HeaderCell>Author</Table.HeaderCell>
-                <Table.HeaderCell>Summary</Table.HeaderCell>
-                <Table.HeaderCell>ISBN</Table.HeaderCell>
-                <Table.HeaderCell>Genres</Table.HeaderCell>
+                <Table.HeaderCell
+                  sorted={column === 'title' ? direction : null}
+                  onClick={this.handleSort('title')}
+                >
+                  Title
+                </Table.HeaderCell>
+                <Table.HeaderCell
+                  sorted={column === 'author.fullname' ? direction : null}
+                  onClick={this.handleSort('author.fullname')}
+                >
+                  Author
+                </Table.HeaderCell>
+                <Table.HeaderCell
+                  sorted={column === 'summary' ? direction : null}
+                  onClick={this.handleSort('summary')}
+                >
+                  Summary
+                </Table.HeaderCell>
+                <Table.HeaderCell
+                  sorted={column === 'isbn' ? direction : null}
+                  onClick={this.handleSort('isbn')}
+                >
+                  ISBN
+                </Table.HeaderCell>
+                <Table.HeaderCell
+                  sorted={column === 'genres' ? direction : null}
+                  onClick={this.handleSort('genres')}
+                >
+                  Genres
+                </Table.HeaderCell>
                 <Table.HeaderCell>Edit</Table.HeaderCell>
                 <Table.HeaderCell>Delete</Table.HeaderCell>
               </Table.Row>
@@ -371,7 +486,14 @@ class BookPage extends Component {
                 books.map(book => {
                   return (
                     <Table.Row key={book.id}>
-                      <Table.Cell>{book.title}</Table.Cell>
+                      <Table.Cell selectable>
+                        <Modal
+                          trigger={<a className="fakeBtn">{book.title}</a>}
+                        >
+                          {/* <Modal.Header>{book.title}</Modal.Header> */}
+                          <BookDetails book={book} />
+                        </Modal>
+                      </Table.Cell>
                       <Table.Cell>{book.author.fullname}</Table.Cell>
                       <Table.Cell>{book.summary}</Table.Cell>
                       <Table.Cell>{book.isbn}</Table.Cell>

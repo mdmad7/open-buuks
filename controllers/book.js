@@ -53,6 +53,20 @@ export const book_list = (req, res) => {
     });
 };
 
+// Display list of all books for search
+export const book_list_search = (req, res) => {
+  Book.find({}, { createdAt: 0, updatedAt: 0 })
+    .populate('author')
+    .populate('genre')
+    .exec((err, list_books) => {
+      if (err) {
+        return next(err);
+      }
+      //Successful, so render
+      res.json(list_books);
+    });
+};
+
 // Display detail page for a specific book
 export const book_detail = (req, res) => {
   async.parallel(

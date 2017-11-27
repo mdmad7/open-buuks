@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import axios from 'axios';
 import {
   Grid,
@@ -15,6 +16,8 @@ class BookInstancePage extends Component {
     super(props);
 
     this.state = {
+      column: null,
+      direction: null,
       modalOpen: false,
       books: null,
       searchError: {
@@ -33,6 +36,25 @@ class BookInstancePage extends Component {
     };
   }
 
+  handleSort = clickedColumn => () => {
+    const { column, bookinstances, direction } = this.state;
+
+    if (column !== clickedColumn) {
+      this.setState({
+        column: clickedColumn,
+        bookinstances: _.sortBy(bookinstances, [clickedColumn]),
+        direction: 'ascending',
+      });
+
+      return;
+    }
+
+    this.setState({
+      bookinstances: bookinstances.reverse(),
+      direction: direction === 'ascending' ? 'descending' : 'ascending',
+    });
+  };
+
   handleDropdownChange = (e, { name, value }) => {
     this.setState({
       [name]: value,
@@ -48,6 +70,7 @@ class BookInstancePage extends Component {
         book: this.state.book_choosen,
         status: this.state.status_choosen,
         due_back: this.state.due_back,
+        with: this.state.with,
       },
       headers: {
         Authorization: localStorage.getItem('id_token'),
@@ -88,6 +111,7 @@ class BookInstancePage extends Component {
         book: this.state.book_choosen,
         status: this.state.status_choosen,
         due_back: this.state.due_back,
+        with: this.state.with,
       },
       headers: {
         Authorization: localStorage.getItem('id_token'),
@@ -132,6 +156,7 @@ class BookInstancePage extends Component {
           book_choosen: response.data.book._id,
           status_choosen: response.data.status,
           due_back: response.data.due_back,
+          with: response.data.with,
         });
       })
       .catch(error => {
@@ -171,13 +196,18 @@ class BookInstancePage extends Component {
       },
     }).then(response => {
       // console.log(response.data);
-      this.setState({
-        bookinstances: response.data,
-      });
+      this.setState(
+        {
+          bookinstances: response.data,
+        },
+        () => {
+          console.log(this.state.bookinstances);
+        },
+      );
     });
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.loadBooks();
     this.loadBookinstances();
   }
@@ -187,7 +217,7 @@ class BookInstancePage extends Component {
   handleDismiss = () => this.setState({ visibleMessage: false });
 
   render() {
-    const { modalOpen, bookinstances } = this.state;
+    const { modalOpen, bookinstances, direction, column } = this.state;
     return (
       <div>
         <Grid textAlign="right">
@@ -221,6 +251,7 @@ class BookInstancePage extends Component {
                       book_id: this.state.book_choosen,
                       status: this.state.status_choosen,
                       due_back: this.state.due_back,
+                      with: this.state.with,
                     }}
                   />
                 </Modal.Content>
@@ -230,13 +261,39 @@ class BookInstancePage extends Component {
         </Grid>
 
         <Segment>
-          <Table celled striped singleLine fixed>
+          <Table celled striped singleLine fixed sortable>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>ID</Table.HeaderCell>
-                <Table.HeaderCell>Title</Table.HeaderCell>
-                <Table.HeaderCell>Status</Table.HeaderCell>
-                <Table.HeaderCell>Due Date</Table.HeaderCell>
+                <Table.HeaderCell
+                  sorted={column === 'id' ? direction : null}
+                  onClick={this.handleSort('id')}
+                >
+                  ID
+                </Table.HeaderCell>
+                <Table.HeaderCell
+                  sorted={column === 'book.title' ? direction : null}
+                  onClick={this.handleSort('book.title')}
+                >
+                  Title
+                </Table.HeaderCell>
+                <Table.HeaderCell
+                  sorted={column === 'status' ? direction : null}
+                  onClick={this.handleSort('status')}
+                >
+                  Status
+                </Table.HeaderCell>
+                <Table.HeaderCell
+                  sorted={column === 'due_back' ? direction : null}
+                  onClick={this.handleSort('due_back')}
+                >
+                  Due Date
+                </Table.HeaderCell>
+                <Table.HeaderCell
+                  sorted={column === 'with' ? direction : null}
+                  onClick={this.handleSort('with')}
+                >
+                  Borrowed / Reserved By
+                </Table.HeaderCell>
                 <Table.HeaderCell>Edit</Table.HeaderCell>
                 <Table.HeaderCell>Delete</Table.HeaderCell>
               </Table.Row>
@@ -251,6 +308,7 @@ class BookInstancePage extends Component {
                       <Table.Cell>{bookinstance.book.title}</Table.Cell>
                       <Table.Cell>{bookinstance.status}</Table.Cell>
                       <Table.Cell>{bookinstance.due_back_formatted}</Table.Cell>
+                      <Table.Cell>{bookinstance.with}</Table.Cell>
                       <Table.Cell selectable warning>
                         <Modal
                           size="tiny"
@@ -283,6 +341,7 @@ class BookInstancePage extends Component {
                                 book_id: this.state.book_choosen,
                                 status: this.state.status_choosen,
                                 due_back: this.state.due_back,
+                                with: this.state.with,
                               }}
                               onSubmit={() => this.handleEdit(bookinstance._id)}
                               visibleMessage={this.state.visibleMessage}
@@ -312,7 +371,8 @@ class BookInstancePage extends Component {
                               color="red"
                               inverted
                               onClick={() =>
-                                this.confirmDelete(bookinstance._id)}
+                                this.confirmDelete(bookinstance._id)
+                              }
                             >
                               <Icon name="checkmark" /> Yes
                             </Button>

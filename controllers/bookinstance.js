@@ -50,6 +50,7 @@ export const bookinstance_create_post = (req, res) => {
     book: req.body.book,
     status: req.body.status,
     due_back: req.body.due_back,
+    with: req.body.with,
   });
 
   const errors = req.validationErrors();
@@ -111,6 +112,7 @@ export const bookinstance_update_post = (req, res, next) => {
     book: req.body.book,
     status: req.body.status,
     due_back: req.body.due_back,
+    with: req.body.with,
     _id: req.params.id,
   });
 

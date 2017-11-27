@@ -57,6 +57,16 @@ const BookInstanceForm = ({
           placeholder="Enter Due Date"
         />
       </Form.Field>
+      <Form.Field>
+        <label>Borrowed / Reserved By?</label>
+        <input
+          onChange={handleChange}
+          name="with"
+          type="text"
+          value={bookinstance.with ? bookinstance.with : ''}
+          placeholder="Who is Book With?"
+        />
+      </Form.Field>
       <Button color={color} type="submit">
         {actionname}
       </Button>

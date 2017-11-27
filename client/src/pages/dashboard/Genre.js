@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import axios from 'axios';
 import {
   Grid,
@@ -16,6 +17,8 @@ class GenrePage extends Component {
     super(props);
 
     this.state = {
+      column: null,
+      direction: null,
       genres: null,
       modalOpen: false,
       error: null,
@@ -23,6 +26,25 @@ class GenrePage extends Component {
 
     this.confirmDelete = this.confirmDelete.bind(this);
   }
+
+  handleSort = clickedColumn => () => {
+    const { column, genres, direction } = this.state;
+
+    if (column !== clickedColumn) {
+      this.setState({
+        column: clickedColumn,
+        genres: _.sortBy(genres, [clickedColumn]),
+        direction: 'ascending',
+      });
+
+      return;
+    }
+
+    this.setState({
+      genres: genres.reverse(),
+      direction: direction === 'ascending' ? 'descending' : 'ascending',
+    });
+  };
 
   handleChange = e => {
     this.setState({
@@ -97,18 +119,23 @@ class GenrePage extends Component {
         Authorization: localStorage.getItem('id_token'),
       },
     }).then(response => {
-      this.setState({
-        genres: response.data,
-      });
+      this.setState(
+        {
+          genres: response.data,
+        },
+        () => {
+          console.log(this.state.genres);
+        },
+      );
     });
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.reloadGenres();
   }
 
   render() {
-    const { genres, modalOpen, error } = this.state;
+    const { genres, modalOpen, error, column, direction } = this.state;
     return (
       <div>
         <Grid textAlign="right">
@@ -144,10 +171,16 @@ class GenrePage extends Component {
           </Grid.Row>
         </Grid>
         <Segment>
-          <Table celled striped>
+          <Table celled striped sortable>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Name</Table.HeaderCell>
+                <Table.HeaderCell />
+                <Table.HeaderCell
+                  sorted={column === 'name' ? direction : null}
+                  onClick={this.handleSort('name')}
+                >
+                  Name
+                </Table.HeaderCell>
                 <Table.HeaderCell>Edit</Table.HeaderCell>
                 <Table.HeaderCell>Delete</Table.HeaderCell>
               </Table.Row>

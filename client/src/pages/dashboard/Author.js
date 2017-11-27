@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import axios from 'axios';
 import {
   Grid,
@@ -16,6 +17,8 @@ class AuthorPage extends Component {
     super(props);
 
     this.state = {
+      column: null,
+      direction: null,
       visibleMessage: false,
       authors: null,
       modalOpen: false,
@@ -27,6 +30,25 @@ class AuthorPage extends Component {
       loading: false,
     };
   }
+
+  handleSort = clickedColumn => () => {
+    const { column, authors, direction } = this.state;
+
+    if (column !== clickedColumn) {
+      this.setState({
+        column: clickedColumn,
+        authors: _.sortBy(authors, [clickedColumn]),
+        direction: 'ascending',
+      });
+
+      return;
+    }
+
+    this.setState({
+      authors: authors.reverse(),
+      direction: direction === 'ascending' ? 'descending' : 'ascending',
+    });
+  };
 
   handleChange = e => {
     console.log(e.target.value);
@@ -77,9 +99,14 @@ class AuthorPage extends Component {
       },
     }).then(response => {
       // console.log(Object.keys(response.data).length);
-      this.setState({
-        authors: response.data,
-      });
+      this.setState(
+        {
+          authors: response.data,
+        },
+        () => {
+          console.log(this.state.authors);
+        },
+      );
     });
   };
 
@@ -210,7 +237,7 @@ class AuthorPage extends Component {
     // this.searchAuthor();
   }
   render() {
-    const { authors, modalOpen } = this.state;
+    const { authors, modalOpen, direction, column } = this.state;
     return (
       <div>
         <Grid textAlign="right">
@@ -255,13 +282,33 @@ class AuthorPage extends Component {
         </Grid>
 
         <Segment>
-          <Table celled striped singleLine fixed selectable>
+          <Table celled striped singleLine fixed selectable sortable>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Name</Table.HeaderCell>
-                <Table.HeaderCell>Bio</Table.HeaderCell>
-                <Table.HeaderCell>Birthday</Table.HeaderCell>
-                <Table.HeaderCell>Death Day</Table.HeaderCell>
+                <Table.HeaderCell
+                  sorted={column === 'fullname' ? direction : null}
+                  onClick={this.handleSort('fullname')}
+                >
+                  Name
+                </Table.HeaderCell>
+                <Table.HeaderCell
+                  sorted={column === 'bio' ? direction : null}
+                  onClick={this.handleSort('bio')}
+                >
+                  Bio
+                </Table.HeaderCell>
+                <Table.HeaderCell
+                  sorted={column === 'date_of_birth' ? direction : null}
+                  onClick={this.handleSort('date_of_birth')}
+                >
+                  Birthday
+                </Table.HeaderCell>
+                <Table.HeaderCell
+                  sorted={column === 'date_of_death' ? direction : null}
+                  onClick={this.handleSort('date_of_death')}
+                >
+                  Death Day
+                </Table.HeaderCell>
                 <Table.HeaderCell>Edit</Table.HeaderCell>
                 <Table.HeaderCell>Delete</Table.HeaderCell>
               </Table.Row>

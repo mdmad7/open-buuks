@@ -11,6 +11,7 @@ var BookInstanceSchema = new Schema(
       default: 'Available',
     },
     due_back: { type: Date },
+    with: { type: String },
   },
   { timestamps: true, toJSON: { virtuals: true, getters: true } },
 );
